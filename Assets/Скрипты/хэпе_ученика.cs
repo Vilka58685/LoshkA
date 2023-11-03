@@ -66,7 +66,7 @@ public class хэпе_ученика : MonoBehaviour
             {
                 for (int i = 0; i < bubble; i++)
                 {
-                    Debug.Log("you drowning");
+                    //Debug.Log("you drowning");
                     GameObject bubble2 = Instantiate(kartinka_puzirik);
                     puzirik_ui.Add(bubble2);
                     puzirik_ui[i].transform.SetParent(панелька2.transform);
@@ -78,6 +78,21 @@ public class хэпе_ученика : MonoBehaviour
                 Destroy(puzirik_ui[0]);
                 puzirik_ui.Remove(puzirik_ui[0]);
             }
+        }
+    }
+    public IEnumerator add_bubble() 
+    {
+        for (int i = 0; i < puzirik-1; i++)
+        {
+            if (bubble<puzirik)
+            {
+                bubble = bubble + 1;
+            }
+            Debug.Log("you resurrected");
+            GameObject bubble2 = Instantiate(kartinka_puzirik);
+            puzirik_ui.Add(bubble2);
+            puzirik_ui[i].transform.SetParent(панелька2.transform);
+            yield return new WaitForSeconds(1);
         }
     }
 }
