@@ -82,7 +82,7 @@ public class хэпе_ученика : MonoBehaviour
     }
     public IEnumerator add_bubble() 
     {
-        for (int i = 0; i < puzirik-1; i++)
+        for (int i = bubble; i < puzirik-1; i++)
         {
             if (bubble<puzirik)
             {
@@ -94,5 +94,9 @@ public class хэпе_ученика : MonoBehaviour
             puzirik_ui[i].transform.SetParent(панелька2.transform);
             yield return new WaitForSeconds(1);
         }
+        puzirik_ui.ForEach(puzirik2 => Destroy(puzirik2));
+        puzirik_ui.Clear();
+        //Destroy(puzirik_ui[0]);
+        bubble = 6;
     }
 }
