@@ -37,6 +37,11 @@ public class Lake : MonoBehaviour
             }
             if (ozero == razdelialka.glubokoe_water_lake)
             {
+                for (int i = 0; хэпе_Ученика.box_bubble.transform.childCount >i; i++)
+                {
+                    //Destroy(хэпе_Ученика.box_bubble.transform.GetChild(0).gameObject);//тут мы удалаем дочерние объекты в панеле пузырей
+                    хэпе_Ученика.box_bubble.transform.GetChild(0).gameObject.SetActive(false);
+                }
                 InvokeRepeating("Bye_bubble", 0, 1);
             }
         }
