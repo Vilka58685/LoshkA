@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class хэпе_ученика : MonoBehaviour
 {
     private int live, bubble = 6, puzirik = 6, ограничения = 3; //PUZIRIK-максимальное число, bubble-текущее
+    private int puzirik_remove = 0;
     public bool nepodberashka;
     private Slider polocka_life;
     public GameObject картинка, box_heart, kartinka_puzirik, box_bubble;
@@ -67,7 +68,7 @@ public class хэпе_ученика : MonoBehaviour
         {
             if (bubble == puzirik)
             {
-                for (int i = 0; i < bubble; i++) //i=0, меньше бубле,i +1
+                for (int i = 0; i < bubble -1; i++) //i=0, меньше бубле,i +1
                 {
                     //Debug.Log("you drowning");
                     //GameObject bubble2 = Instantiate(kartinka_puzirik);
@@ -75,9 +76,9 @@ public class хэпе_ученика : MonoBehaviour
                     //puzirik_ui[i].transform.SetParent(box_bubble.transform);
 
                     // box_bubble.transform.GetChild(0).gameObject.SetActive(true);
-                    if (i > 0)
+                    if ( !puziriki_ui[i >= 0 && i <= 5 ? i : 0].activeInHierarchy)
                     {
-                        puziriki_ui[i - 1].SetActive(true);
+                        puziriki_ui[i].SetActive(true);
                     }
                 }
             }
@@ -87,8 +88,9 @@ public class хэпе_ученика : MonoBehaviour
                 //Destroy(puziriki_ui[0]);
                 if (puziriki_ui.Count!=0)
                 {
-                    puziriki_ui[0].SetActive(false);
-                    puziriki_ui.Remove(puziriki_ui[0]);
+                    puziriki_ui[puzirik_remove].SetActive(false);
+                    puzirik_remove++;
+                    //puziriki_ui.Remove(puziriki_ui[0]);
                 }
             }
         }
@@ -105,7 +107,7 @@ public class хэпе_ученика : MonoBehaviour
             Debug.Log("you resurrected");
             // GameObject bubble2 = Instantiate(kartinka_puzirik);
             //puziriki_ui.Add(puziriki_static[i]);
-            puziriki_ui = puziriki_static;
+            //puziriki_ui[i] = puziriki_static[i];
             puziriki_ui[i].SetActive(true);
             // puzirik_ui.Add(bubble2);
             // puzirik_ui[i].transform.SetParent(box_bubble.transform);
