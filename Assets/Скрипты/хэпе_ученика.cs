@@ -6,41 +6,36 @@ using UnityEngine.SceneManagement;
 
 public class хэпе_ученика : MonoBehaviour
 {
-    private int live, bubble = 6, puzirik = 6, ограничения = 3; //PUZIRIK-максимальное число, bubble-текущее
+    private int live, bubble = 5, puzirik = 5, ограничения = 3; //PUZIRIK-максимальное число, bubble-текущее
     private int puzirik_remove = 0;
-    public bool nepodberashka;
+    public bool timerOn, add_bubble_now;
     private Slider polocka_life;
     public GameObject картинка, box_heart, kartinka_puzirik, box_bubble;
     public List<GameObject> life_ui = new();
     private List<GameObject> puzirik_ui = new();
     [SerializeField] private List<GameObject> puziriki_ui; // SerializeField - открывает строку для инспектора,но не открывает для других скриптов
     [SerializeField] private List<GameObject> puziriki_static;
+    public int Live => live;
+    public int Ограничения => ограничения;
+    public Slider Polocka_life => polocka_life;
     private void Start()
     {
-       // puziriki_static = puziriki_ui;
         polocka_life = FindObjectOfType<Slider>();
         изменение_жизней(1);
     }
     public void изменение_жизней(int плюс_к_счёту)
     {
-        if (live < ограничения)
+        live = live + плюс_к_счёту;
+        if (плюс_к_счёту > 0)
         {
-            live = live + плюс_к_счёту;
-            if (плюс_к_счёту > 0)
-            {
-                GameObject heart = Instantiate(картинка);  // создаёт картинки при подборе префаба
-                life_ui.Add(heart);
-                life_ui[life_ui.Count - 1].transform.SetParent(box_heart.transform); // преобразует картинки в указыною панель
-            }
-            else
-            {
-                Destroy(life_ui[0]);
-                life_ui.Remove(life_ui[0]);
-            }
+            GameObject heart = Instantiate(картинка);  // создаёт картинки при подборе префаба
+            life_ui.Add(heart);
+            life_ui[life_ui.Count - 1].transform.SetParent(box_heart.transform); // преобразует картинки в указыною панель
         }
         else
         {
-            nepodberashka = true;
+            Destroy(life_ui[0]);
+            life_ui.Remove(life_ui[0]);
         }
     }
     public void izmenenie_Slidera(int плюс_к_счёту) //izmenenie_percent
@@ -57,66 +52,55 @@ public class хэпе_ученика : MonoBehaviour
             polocka_life.value = polocka_life.maxValue;
         }
     }
-    public void изменение_bubble(int bye_bubble)
+    public void изменение_bubble()
     {
         if (bubble == 0)
         {
             izmenenie_Slidera(-7);
             return;
         }
-        if (bubble <= puzirik)
+        if (bubble <= puzirik && !add_bubble_now)
         {
-            if (bubble == puzirik)
-            {
-                for (int i = 0; i < bubble -1; i++) //i=0, меньше бубле,i +1
-                {
-                    //Debug.Log("you drowning");
-                    //GameObject bubble2 = Instantiate(kartinka_puzirik);
-                    //puzirik_ui.Add(bubble2);
-                    //puzirik_ui[i].transform.SetParent(box_bubble.transform);
-
-                    // box_bubble.transform.GetChild(0).gameObject.SetActive(true);
-                    if ( !puziriki_ui[i >= 0 && i <= 5 ? i : 0].activeInHierarchy)
-                    {
-                        puziriki_ui[i].SetActive(true);
-                    }
-                }
-            }
             if (bubble > 0)
             {
-                bubble = bubble - 1;
-                //Destroy(puziriki_ui[0]);
-                if (puziriki_ui.Count!=0)
-                {
-                    puziriki_ui[puzirik_remove].SetActive(false);
-                    puzirik_remove++;
-                    //puziriki_ui.Remove(puziriki_ui[0]);
-                }
+                StopAllCoroutines();
+                StartCoroutine(remove_bubble());
             }
         }
     }
     public IEnumerator add_bubble()
     {
-       
-        for (int i = bubble - 1; i < puzirik - 1; i++)
+        add_bubble_now = true;
+        foreach (var puzirik in puziriki_ui)
         {
-            if (bubble < puzirik)
-            {
-                bubble = bubble + 1;
-            }
-            Debug.Log("you resurrected");
-            // GameObject bubble2 = Instantiate(kartinka_puzirik);
-            //puziriki_ui.Add(puziriki_static[i]);
-            //puziriki_ui[i] = puziriki_static[i];
-            puziriki_ui[i].SetActive(true);
-            // puzirik_ui.Add(bubble2);
-            // puzirik_ui[i].transform.SetParent(box_bubble.transform);
+            puzirik.SetActive(true);
+            Debug.Log("coroutine add_bubble");
             yield return new WaitForSeconds(1);
         }
-        puziriki_ui.ForEach(puzirik2 => puzirik2.SetActive(false));
-        //puziriki_ui.Clear();
-        //Destroy(puzirik_ui[0]);
-        bubble = 6;
+        puziriki_ui.ForEach(puzip => puzip.SetActive(false));
+        bubble = 5;
+        add_bubble_now = false;
     }
-
+    public IEnumerator remove_bubble()
+    {
+        puziriki_ui.ForEach(puzip => puzip.SetActive(true));
+        foreach (var puzip in puziriki_ui)
+        {
+            yield return new WaitForSeconds(1);
+            puzip.SetActive(false);
+            Debug.Log("coroutine remove_bubble");
+            bubble--;
+        }
+    }
+    private void Update()
+    {
+        if (add_bubble_now)
+        {
+            StopCoroutine(remove_bubble());
+        }
+        else
+        {
+            StopCoroutine(add_bubble());
+        }
+    }
 }

@@ -15,7 +15,7 @@ public class хилки : MonoBehaviour
     }
     private void OnTriggerEnter(Collider Other)
     {
-        if (Other.gameObject.CompareTag("Player"))
+        if (Other.gameObject.CompareTag("Player") && хэпе_Ученика.Polocka_life.value < хэпе_Ученика.Polocka_life.maxValue)
         {
             Destroy(gameObject);
             хэпе_Ученика.izmenenie_Slidera(проценты);

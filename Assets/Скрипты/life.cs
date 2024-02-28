@@ -7,7 +7,6 @@ public class life : MonoBehaviour
     private хэпе_ученика хэпе_Ученика;
     public int значение;
     public float скорость_поворота = 4;
-    public int проценты;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +14,7 @@ public class life : MonoBehaviour
     }
     private void OnTriggerEnter(Collider Other)
     {
-        if (Other.gameObject.CompareTag("Player"))
+        if (Other.gameObject.CompareTag("Player") && хэпе_Ученика.Live < хэпе_Ученика.Ограничения)
         {
             Destroy(gameObject); // исчезновение
             хэпе_Ученика.изменение_жизней(значение);
