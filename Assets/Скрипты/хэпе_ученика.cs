@@ -52,24 +52,28 @@ public class хэпе_ученика : MonoBehaviour
             polocka_life.value = polocka_life.maxValue;
         }
     }
-    public void изменение_bubble()
-    {
-        if (bubble == 0)
-        {
-            izmenenie_Slidera(-7);
-            return;
-        }
-        if (bubble <= puzirik && !add_bubble_now)
-        {
-            if (bubble > 0)
-            {
-                StopAllCoroutines();
-                StartCoroutine(remove_bubble());
-            }
-        }
-    }
+    //public void изменение_bubble()
+    //{
+    //    if (bubble <= 0)
+    //    {
+    //        izmenenie_Slidera(-7);
+    //        return;
+    //    }
+    //    if (bubble <= puzirik && !add_bubble_now)
+    //    {
+    //        if (bubble > 0)
+    //        {
+    //            StopAllCoroutines();
+    //            StartCoroutine(remove_bubble());
+    //        }
+    //    }
+    //}
     public IEnumerator add_bubble()
     {
+        if(!add_bubble_now)
+        {
+            StopCoroutine(add_bubble());
+        }
         add_bubble_now = true;
         foreach (var puzirik in puziriki_ui)
         {
@@ -83,6 +87,10 @@ public class хэпе_ученика : MonoBehaviour
     }
     public IEnumerator remove_bubble()
     {
+        if (add_bubble_now )
+        {
+            StopCoroutine(remove_bubble());
+        }
         puziriki_ui.ForEach(puzip => puzip.SetActive(true));
         foreach (var puzip in puziriki_ui)
         {
@@ -91,16 +99,21 @@ public class хэпе_ученика : MonoBehaviour
             Debug.Log("coroutine remove_bubble");
             bubble--;
         }
-    }
-    private void Update()
-    {
-        if (add_bubble_now)
+        for (int i = 0; i < 15; i++)
         {
-            StopCoroutine(remove_bubble());
-        }
-        else
-        {
-            StopCoroutine(add_bubble());
-        }
+            izmenenie_Slidera(-7);
+            yield return new WaitForSeconds(1.7f);
+        } 
     }
+    //private void Update()
+    //{
+    //    if (add_bubble_now)
+    //    {
+    //        StopCoroutine(remove_bubble());
+    //    }
+    //    else
+    //    {
+    //        StopCoroutine(add_bubble());
+    //    }
+    //}
 }

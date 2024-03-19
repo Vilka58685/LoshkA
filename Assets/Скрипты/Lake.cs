@@ -37,7 +37,8 @@ public class Lake : MonoBehaviour
             }
             if (ozero == razdelialka.glubokoe_water_lake)
             {
-                хэпе_Ученика.изменение_bubble();
+                StopAllCoroutines();     
+                StartCoroutine(хэпе_Ученика.remove_bubble());
             }
         }
     }
@@ -46,6 +47,7 @@ public class Lake : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && ozero == razdelialka.glubokoe_water_lake)
         {
             CancelInvoke("Bye_bubble");
+            StopAllCoroutines();
             StartCoroutine( хэпе_Ученика.add_bubble());
         }
         if (other.gameObject.CompareTag("Player") && ozero == razdelialka.lava_lake)
