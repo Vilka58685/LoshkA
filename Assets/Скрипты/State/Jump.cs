@@ -8,14 +8,23 @@ public class Jump : Base_State
     { }
     public override void EnEtEr()
     {
-        base.EnEtEr();
+        data.Animator.CrossFadeInFixedTime("Jumping", 0);
+        Debug.Log("you jump");
+        data.axis = new Vector3(data.axis.x, data.axis.y+data.Force_jump, data.axis.z); 
     }
     public override void ExIt()
     {
-        base.ExIt();
+       
     }
     public override void TiK()
     {
-        base.TiK();
+        ApplyGravity(data.Gravity_force);
+        if (data.axis.y <= 0)
+        {
+            data.change_sta_te(new Fall(data));
+        }
+        camera_move();
+        turn();
+        move();
     }
 }

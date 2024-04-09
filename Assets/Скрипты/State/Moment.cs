@@ -10,10 +10,11 @@ public class Moment : Base_State
     {
         data.Animator.CrossFadeInFixedTime("smeshanie_animation", 0);
         data.axis.y = Physics.gravity.y;
+        data.Vvod.on_jump += Jump;
     }
     public override void ExIt()
     {
-        base.ExIt();
+        data.Vvod.on_jump -= Jump;
     }
     public override void TiK()
     {
@@ -21,5 +22,9 @@ public class Moment : Base_State
         camera_move(); 
         turn();
         move();
+    }
+    void Jump()
+    {
+        data.change_sta_te(new Jump(data));
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class vvod : MonoBehaviour, Controls.IGirlwithknifeActions
 {
     private Controls Klavishi;
     private Vector2 movement;
+    public Action on_jump;
     public Vector2 Movement => movement;
     private void OnEnable()
     {
@@ -20,7 +22,10 @@ public class vvod : MonoBehaviour, Controls.IGirlwithknifeActions
     }
     public void OnJump(InputAction.CallbackContext context)
     {
-        Debug.Log("you jump");
+        if (context.started)
+        {
+            on_jump?.Invoke();
+        } 
     }
 
     public void OnKortochki(InputAction.CallbackContext context)

@@ -39,4 +39,11 @@ public class Base_State : State
         }
         data.transform.rotation = Quaternion.Slerp(data.transform.rotation, Quaternion.LookRotation(turn_direction), data.Speed_turn * Time.deltaTime);
     }
+    protected void ApplyGravity(float gravityModifier) 
+    {
+        if (data.axis.y > Physics.gravity.y)
+        {
+            data.axis.y += Physics.gravity.y * Time.deltaTime * gravityModifier;
+        }
+    }
 }

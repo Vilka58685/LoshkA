@@ -11,6 +11,10 @@ public class Data_State : Change_State
     private vvod vvod;
     private Transform camere;
     private float speed = 4;
+    private float force_jump =23;
+    private float gravity_force = 2;
+    public float Gravity_force => gravity_force;
+    public float Force_jump => force_jump;
     public float Speed_turn => speed_turn; 
     public float Speed => speed;
     public Transform Camere => camere;
